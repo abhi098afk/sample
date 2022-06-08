@@ -1,6 +1,6 @@
 ## Introduction
 
-This repository contains the codes to get shapefiles from PDF files by doing OCR,image processing and geocoding using PyGeos. The shapefiles obtained can be digitally mapped using QGIS.
+This repository contains the codes to get shapefiles from PDF files by doing OCR,image processing and geocoding using PyGeos.
 
 Some results obtained:
 
@@ -40,6 +40,7 @@ Make sure you have both of the "files" and "Database" folders in the same locati
 
 # Usage
 
+![picture](stream.png)
 We are using Streamlit to make the web application. Streamlit is an open-source app framework for Machine Learning and Data Science teams to make web apps in minutes. 
 
 
@@ -52,16 +53,19 @@ We are using Streamlit to make the web application. Streamlit is an open-source 
 
 ## **Processing**
 
-After taking the input from the user, multiple processes occur:
+After taking the input from the user, these processes take place:
 
--Conversion of pages into pngs, optical character recognition to extract all the text in those pngs, table detection and creation.
--Tables extracted are then further analysed and addresses present in those tables are captured. 
--Addresses obtained are geocoded into lat/long coordinates which gives us the resultant shapefile of the PDF.
+- Conversion of pages into pngs, optical character recognition to extract all the text in those pngs, table detection and creation.
+- Tables extracted are then further analysed and addresses present in those tables are captured. 
+- Addresses obtained are geocoded into lat/long coordinates which gives us the resultant shapefile of the PDF.
 
 
 
 ### **Time taken**
 
--Generally, a four page PDF takes up to 4-5 minutes to process and give the shapefile.
--A single page pdf takes up to 2 minutes.
+- Generally, a four page PDF takes up to 4-5 minutes to process and give the shapefile.
+- A single page pdf takes up to 2 minutes.
 
+### **Mapping**
+![picture](qgs.png)
+- The shapefiles obtained can be digitally mapped using QGIS. 
