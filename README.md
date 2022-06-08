@@ -1,40 +1,39 @@
-`# Intro
+## Intro
 
-This repository contains the codes to run the nuclei segmentation pipeline of the BIOMAG group inspired by Kaggle's Data Science Bowl 2018 competition
+This repository contains the codes to get shapefiles from PDF files by doing OCR,image processing and geocoding using PyGeos. The shapefiles obtained can be digitally mapped using QGIS.
 
 Some resulting masks obtained by our method:
 
-![picture](example_results.png)
+![picture](results(1).png)
+![picture](results(2).png)
 
 # Prerequisites
 
 Please see requirements.txt that can also be run as a bash script (Linux) or alternatively, you can copy the install commands to console corresponding to your system (command prompt (Windows) / terminal (Linux)) and execute them.
 
-- Install CUDA 9.0 and CuDNN 7.0 as well as MATLAB* (Release 2017a or later) appropriate for your system. Currently, Linux and Windows implementation is provided.
-
-	\*: MATLAB is not required for [fast prediction](#fast-prediction).
-
-- MATLAB* toolboxes used by the repository are:
-	- Image Processing Toolbox
-	- Parallel Computing Toolbox
-	- Statistics and Machine Learning Toolbox
-	- Curve Fitting Toolbox
-	- Global Optimization Toolbox
-	- Optimization Toolbox
+- See the setup.sh for installing other dependencies and forming the correct file structure required for the program to run correctly.
 - See requirements.txt for python packages to install.
-- Download Matterport's Mask R-CNN github repository or clone directly with git and revert to the commit our method uses:
+- Install QGIS : A Free and Open Source Geographic Information System. Currently, Linux and Windows implementation is provided here in this [download link].(https://qgis.org/en/site/forusers/download.html)
+- After installing Image Magick from the setup.sh, you will need to tweak its policy file a little bit.
+	\:ImageMagick has some security policies disabling some rights for security reasons.
+	\:The restricted policy is made to prevent unknown vulnerabilities coming from third party software as Ghostscript used here for PDF files. Be sure to update Ghostscript.
 
 ```
-	git clone https://github.com/matterport/Mask_RCNN.git
-	git checkout 53afbae5c5159b5a10ecd024a72b883a2b058314
+	#WRITE THIS IN YOUR TERMINAL:
+	sudo nano /etc/ImageMagick-6/policy.xml
+	
+	#FIND AND EDIT THIS LINE BELOW:
+	<policy domain="coder" rights="none" pattern="PDF" />
+	
+	#TO:
+	<policy domain="coder" rights="read|write" pattern="PDF" />
 ```
 
-- You will need to set the path of your cloned Mask R-CNN folder in the scripts below
-- See documentation in .pdf on how to use functionalities of our pipeline
 
-## Data
 
-Our method expects images to be 8-bit 3 channels RGB images in .png format. See [our script](#preprocess-test-images) to convert your images.
+## Folder Structure
+
+Make sure you have both of the 'files' and 'Database' folders in the same location as your Main_app.py file.
 
 
 # Prediction
