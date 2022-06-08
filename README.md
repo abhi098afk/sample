@@ -13,10 +13,10 @@ Please see requirements.txt that can also be run as a bash script (Linux) or alt
 
 - See the setup.sh for installing other dependencies and forming the correct file structure required for the program to run correctly.
 - See requirements.txt for python packages to install.
-- Install QGIS : A Free and Open Source Geographic Information System. Currently, Linux and Windows implementation is provided here in this [download link].(https://qgis.org/en/site/forusers/download.html)
+- Install QGIS : A Free and Open Source Geographic Information System. Currently, Linux and Windows implementation is provided here in this [download link](https://qgis.org/en/site/forusers/download.html).
 - After installing Image Magick from the setup.sh, you will need to tweak its policy file a little bit.
-	\:ImageMagick has some security policies disabling some rights for security reasons.
-	\:The restricted policy is made to prevent unknown vulnerabilities coming from third party software as Ghostscript used here for PDF files. Be sure to update Ghostscript.
+- ImageMagick has some security policies disabling some rights for security reasons.
+- The restricted policy is made to prevent unknown vulnerabilities coming from third party software as Ghostscript used here for PDF files. Be sure to update Ghostscript.
 
 ```
 	#WRITE THIS IN YOUR TERMINAL:
