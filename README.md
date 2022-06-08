@@ -1,4 +1,4 @@
-## Intro
+## Introduction
 
 This repository contains the codes to get shapefiles from PDF files by doing OCR,image processing and geocoding using PyGeos. The shapefiles obtained can be digitally mapped using QGIS.
 
@@ -11,11 +11,13 @@ Some results obtained:
 
 # Prerequisites
 
-Please see requirements.txt that can also be run as a bash script (Linux) or alternatively, you can copy the install commands to console corresponding to your system (command prompt (Windows) / terminal (Linux)) and execute them.
-
-- See the setup.sh for installing other dependencies and forming the correct file structure required for the program to run correctly.
 - See requirements.txt for python packages to install.
-- Install QGIS : A Free and Open Source Geographic Information System. Currently, Linux and Windows implementation is provided here in this [download link](https://qgis.org/en/site/forusers/download.html).
+- See the setup.sh for installing other dependencies and forming the correct file structure required for the program to run correctly.
+
+
+# Installation
+
+- Install QGIS : A Free and Open Source Geographic Information System.Linux and Windows implementation is provided here in this [download link](https://qgis.org/en/site/forusers/download.html).
 - After installing Image Magick from the setup.sh, you will need to tweak its policy file a little bit.
 - ImageMagick has some security policies disabling some rights for security reasons.
 - The restricted policy is made to prevent unknown vulnerabilities coming from third party software as Ghostscript used here for PDF files. Be sure to update Ghostscript.
@@ -31,121 +33,35 @@ Please see requirements.txt that can also be run as a bash script (Linux) or alt
 	<policy domain="coder" rights="read|write" pattern="PDF" />
 ```
 
+## Folder Structure
+
+Make sure you have both of the "files" and "Database" folders in the same location as your Main_app.py file.
 
 
-# Folder Structure
+# Usage
 
-Make sure you have both of the 'files' and 'Database' folders in the same location as your Main_app.py file.
-
-
-# Prediction
-
-Download our pre-trained models from [our google drive](https://drive.google.com/open?id=1lVJtS41vzMkIsCa3-i14mSmLBbaKazsq)
-
-- Make sure you have *mask_rcnn_coco.h5*, *mask_rcnn_presegmentation.h5* and *mask_rcnn_final.h5* in the folder \kaggle_workflow\maskrcnn\model\
-- Make sure you have *UNet_sigma0.0_1\UNet_sigma0.0_1* and the other U-Net models in the folder \kaggle_workflow\unet\
-
-You can choose either full prediction with post-processing or fast prediction; the former takes longer to complete and requires more VRAM.
+We are using Streamlit to make the web application. Streamlit is an open-source app framework for Machine Learning and Data Science teams to make web apps in minutes. 
 
 
-## **Full prediction pipeline with post-processing**
+- Make sure you have the files and Database folder empty before running the app.
+- To run the app, simply open the terminal in your working directory and type :
 
-Predicts nuclei first with a presegmenter Mask R-CNN model, estimates cell sizes, predicts with multiple U-Net models and ensembles the results, then uses all of the above in a final post-processing step to refine the contours.
-To predict nuclei on images please edit either
+```
+	OMP_THREAD_LIMIT=1 streamlit run Main_app.py
+```
 
-- `start_prediction_full.bat` (Windows) or 
-- `start_prediction_full.sh` (Linux)
+## **Processing**
 
-and specify the following 3 directories with their corresponding full paths on your system:
+After taking the input from the user, multiple processes occur:
 
-- Mask R-CNN
-- root_dir
-- images_dir
-
-Note: [pre-processing scripts](#preprocess-test-images) are provided to convert your test images.
-See further details in the documentation.
-
-## **Fast prediction**
-
-Predicts nuclei with a presegmenter Mask R-CNN model that generalizes and performs well in varying image types. Produces fast results that can be improved with the post-processing option above.
-To predict fast:
-Please follow the steps of "PREDICTION WITH POST-PROCESSING" section for either of the files:
-
-- `start_prediction_fast.bat` (Windows) or 
-- `start_prediction_fast.sh` (Linux)
-
-See further details in the documentation.
+-Conversion of pages into pngs, optical character recognition to extract all the text in those pngs, table detection and creation.
+-Tables extracted are then further analysed and addresses present in those tables are captured. 
+-Addresses obtained are geocoded into lat/long coordinates which gives us the resultant shapefile of the PDF.
 
 
-# Custom validation
 
-To use your custom folder of images as validation please run the following script according to your operating system:
+### **Time taken**
 
-- `runGenerateValidationCustom.bat` (Windows)
-- `runGenerateValidationCustom.sh` (Linux)
-
-See further details in the documentation.
-
-
-# Training
-
-Obtain our pre-trained classifier *pretrainedDistanceLearner.mat* for training by either:
-- Downloading it from [our google drive](https://drive.google.com/drive/folders/1RC4Iy3qkfU1cF6bZFx3JOXvzqsvyT3J4?usp=sharing). Make sure you have *pretrainedDistanceLearner.mat* in the folder \kaggle_workflow\inputs\clustering\
-
-	***or***
-
-- Installing Git LFS (Large File Storage) by following the instructions on [their installation guide](https://github.com/git-lfs/git-lfs/wiki/Installation) or [their github page](https://git-lfs.github.com/) according to your operating system. Make sure you set it up after installation:
-
-	```
-		git lfs install
-	```
-
-WARNING: it is possible to overwrite our provided trained models in this step. See documentation for details.
-
-We include a .mat file with the validation image names we used for the Kaggle DSB2018 competition. If you would like to use your own images for this pupose, see [**Custom validation**](#custom-validation) above.
-
-WARNING: training will override the U-Net models we provide, we advise you make a copy of them first from the following relative path:
-\kaggle_workflow\unet\
-
-To train on your own images please run the following script according to your operating system:
-
-- `start_training.bat` (Windows)
-- `start_training.sh` (Linux)
-
-NOTE: for Windows you need to edit start_training.bat and set your python virtual environment path as indicated prior to running the script. It will open a second command prompt for necessary server running of pix2pix and must remain open until all pix2pix code execution is finished - which is indicated by the message "STYLE TRANSFER DONE:" in command prompt.
-
-See further details in the documentation.
-
-
-# Parameter search for post-processing
-
-A generally optimal set of parameters are provided in the scripts as default. However, you can run our parameter optimizer to best fit to your image set.
-
-To find the most optimal parameters please run the following script according to your operating system:
-
-- `start_parameterSearch.bat` (Windows)
-- `start_parameterSearch.sh` (Linux)
-
-and see the found parameters in the text file \kaggle_workflow\outputsValidation\paramsearch\paramsearchresult.txt
-
-See further details in the documentation.
-
-
-# Prepare style transfer input for single experiment
-
-To prepare style transfer on your own images coming from **the same experiment** please run the following script according to your operating system:
-
-- `start_singleExperimentPreparation.bat` (Windows)
-- `start_singleExperimentPreparation.sh` (Linux)
-
-After this you are ought to run *these* training scripts instead of the ones above:
-
-- `start_training_singleExperiment.bat` (Windows)
-- `start_training_singleExperiment.sh` (Linux)
-
-as these scripts would use the single experiment data for style transfer learning.
-
-WARNING: If you do not provide your own mask folder for this step the default option will be \kaggle_workflow\outputs\presegment which is created by the fast segmentation step of our pipeline. Please run it prior to this step to avoid 'file not found' errors.
-
-NOTE: This option should only be used if **all your images come from the same experiment**. If you provide mixed data, subsequent style transfer learning will result in flawed models and failed synthetic images.
+-Generally, a four page PDF takes up to 4-5 minutes to process and give the shapefile.
+-A single page pdf takes up to 2 minutes.
 
