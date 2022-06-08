@@ -2,9 +2,11 @@
 
 This repository contains the codes to get shapefiles from PDF files by doing OCR,image processing and geocoding using PyGeos. The shapefiles obtained can be digitally mapped using QGIS.
 
-Some resulting masks obtained by our method:
+Some results obtained:
 
+1.
 ![picture](results(1).png)
+2.
 ![picture](results(2).png)
 
 # Prerequisites
@@ -31,7 +33,7 @@ Please see requirements.txt that can also be run as a bash script (Linux) or alt
 
 
 
-## Folder Structure
+# Folder Structure
 
 Make sure you have both of the 'files' and 'Database' folders in the same location as your Main_app.py file.
 
